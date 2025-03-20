@@ -4,9 +4,12 @@ steps:
     
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/disha-k8s-project/my-docker-repo/container2']
-    
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['container', 'clusters', 'get-credentials', 'disha-gke-cluster', '--region', 'us-central1']
+
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/container2/container2.yaml']
-
-options:
-  logging: CLOUD_LOGGING_ONLY
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=disha-gke-cluster'
