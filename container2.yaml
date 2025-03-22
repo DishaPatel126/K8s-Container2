@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: container2
-          image: us-central1-docker.pkg.dev/disha-k8s-project/my-docker-repo/container2:latest  # Fixed Image Path
+          image: us-central1-docker.pkg.dev/disha-k8/my-docker-repo/container2:latest  # Fixed Image Path
           ports:
             - containerPort: 5000
           volumeMounts:
