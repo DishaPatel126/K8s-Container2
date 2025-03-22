@@ -16,7 +16,7 @@ def process():
         data = request.get_json()
         if not data or "file" not in data or "product" not in data:
             return jsonify({"file": None, "error": "Invalid JSON input."}), 400
-        
+
         file_name = data["file"]
         product = data["product"]
         file_path = os.path.join(PERSISTENT_STORAGE_PATH, file_name)
@@ -25,12 +25,16 @@ def process():
             return jsonify({"file": file_name, "error": "File not found."}), 404
 
         try:
-            df = pd.read_csv(file_path, delimiter=",", dtype=str)
+            from io import StringIO
+            with open(file_path, 'r') as f:
+                content = f.read()
+            df = pd.read_csv(StringIO(content), delimiter=",", dtype=str)
 
             df.columns = [col.strip().lower() for col in df.columns]
 
             if df.columns.tolist() != ["product", "amount"]:
                 raise ValueError("Invalid CSV format")
+
             df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
             if df["amount"].isna().any():
                 raise ValueError("Invalid CSV format")
