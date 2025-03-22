@@ -1,9 +1,9 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/disha-k8s-project/my-docker-repo/container2', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/disha-k8/my-docker-repo/container2', '.']
     
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/disha-k8s-project/my-docker-repo/container2']
+    args: ['push', 'us-central1-docker.pkg.dev/disha-k8/my-docker-repo/container2']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['container', 'clusters', 'get-credentials', 'disha-gke-cluster', '--region', 'us-central1']
