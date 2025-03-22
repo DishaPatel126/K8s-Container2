@@ -20,20 +20,24 @@ def process():
         file_name = data["file"]
         product = data["product"]
         file_path = os.path.join(PERSISTENT_STORAGE_PATH, file_name)
-        
+
         if not os.path.isfile(file_path):
             return jsonify({"file": file_name, "error": "File not found."}), 404
-        
+
         try:
-            df = pd.read_csv(file_path, delimiter=",", dtype={"product": str, "amount": str})
-            if list(df.columns) != ["product", "amount"]:
+            df = pd.read_csv(file_path, delimiter=",", dtype=str)
+
+            df.columns = [col.strip().lower() for col in df.columns]
+
+            if df.columns.tolist() != ["product", "amount"]:
                 raise ValueError("Invalid CSV format")
             df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
             if df["amount"].isna().any():
                 raise ValueError("Invalid CSV format")
-            
+
             total = df[df["product"] == product]["amount"].sum()
             return jsonify({"file": file_name, "sum": int(total)}), 200
+
         except Exception:
             return jsonify({"file": file_name, "error": "Input file not in CSV format."}), 400
 
