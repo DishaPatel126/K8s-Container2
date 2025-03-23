@@ -4,7 +4,6 @@ import os
 
 app = Flask(__name__)
 
-# Persistent volume directory in GKE
 PERSISTENT_STORAGE_PATH = "/disha_PV_dir/"
 
 @app.route('/process', methods=['POST'])
