@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 PERSISTENT_STORAGE_PATH = "/disha_PV_dir/"
 
+#CI/CD trigger for container2
 @app.route('/process', methods=['POST'])
 def process():
     if request.content_type != "application/json":
